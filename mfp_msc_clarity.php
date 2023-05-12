@@ -14,8 +14,6 @@
  */
 
 
-require_once __DIR__.'/classes/ManageSqlMSCclarity.php';
-require_once __DIR__.'/classes/ModulesForPrestaConnectorMSCclarity.php';
 require_once __DIR__.'/classes/ModulesForPrestaMarketingMSCclarity.php';
 
 
@@ -46,15 +44,8 @@ class mfp_msc_clarity extends Module
         $this->displayName = $this->l('Integration Microsoft Clarity');
         $this->description = $this->l('Module to connect with Microsoft Clarity');
 
-//        $this->confirmUninstall = $this->confirmUninstall();
 
-        if (!Configuration::get('SELECT ADD')) {
-            $this->warning = $this->l('No name provided');
-        }
-    }
-    public static function getPrefixDb() {
 
-        return _DB_PREFIX_;
     }
 
     public function install()
@@ -64,20 +55,11 @@ class mfp_msc_clarity extends Module
             return false;
         }
         if(!$this->registerHook('displayHeader')) return false;
-
-        $this->installQuaries();
-
+        if(!$this->registerHook('actionFrontControllerSetMedia')) return false;
 
         return true;
     }
-    public function confirmUninstall()
-    {
-        $this->context->smarty->assign(array(
-            'module_display_name' => $this->displayName
-        ));
-//        echo $this->_path.'/views/templates/admin';
-        return  $this->display(__FILE__, 'views/templates/admin/uninstall_popup.tpl');
-    }
+
     public function uninstall()
     {
         // Deletes module tables
@@ -90,7 +72,7 @@ class mfp_msc_clarity extends Module
         ));
 
 
-        $this->uninstallQueries();
+
         if (!parent::uninstall()) {
             return false;
         }
@@ -101,46 +83,39 @@ class mfp_msc_clarity extends Module
     public function displayForm(){
         $fields_form[0]['form'] = array(
             'legend' => array(
-                'title' => $this->l('Setting top information bar'),
+                'title' => $this->l('Ustawienia Integration Microsoft Clarity'),
             ),
             'input' => array(
                 array(
                     'type' => 'text',
-                    'label' => $this->l('Write a text to top bar'),
-                    'name' => 'mfp_top_information_bar',
-
+                    'label' => $this->l('Projekt ID z Clarity'),
+                    'name' => 'mfp_msc_clarity_text',
+                    'desc' => $this->l('ID projektu znajduje się ')
 
                 ),
                 array(
-                    'type' => 'text',
-                    'label' => $this->l('Font size'),
-                    'name' => 'mfp_text_size',
-                    'desc' => $this->l('Enter size in pixels'),
-                ),
-                array(
-                    'type' => 'color',
-                    'label' => $this->l('Set Color text'),
-                    'name' => 'mfp_text_color',
-                    'lang' => false,
-                    'id' => 'text_color',
-                    'data-hex' => true,
-
-                    'desc' => $this->l('Enter hex code.'),
-                ),
-                array(
-                    'type' => 'color',
-                    'label' => $this->l('Set Color bar'),
-                    'name' => 'mfp_bar_color',
-                    'lang' => false,
-                    'id' => 'bar_color',
-                    'data-hex' => true,
-
-                    'desc' => $this->l('Enter hex code.'),
-                ),
+                    'type' => 'switch',
+                    'label' => $this->l('Aktywacja modułu'),
+                    'name' => 'mfp_msc_clarity_switch',
+                    'is_bool' => true,
+                    'desc' => $this->l('Włącz/wyłącz połaczneie z Clarity'),
+                    'values' => array(
+                        array(
+                            'id' => 'active_on',
+                            'value' => 1,
+                            'label' => $this->l('Włącz')
+                        ),
+                        array(
+                            'id' => 'active_off',
+                            'value' => 0,
+                            'label' => $this->l('Wyłącz')
+                        )
+                    ),
+                )
 
             ),
             'submit' => array(
-                'title' => $this->l('Save'),
+                'title' => $this->l('Zapisz'),
                 'class' => 'btn btn-default pull-right'
             )
         );
@@ -167,12 +142,8 @@ class mfp_msc_clarity extends Module
         );
         $helper->tpl_vars = array(
             'fields_value' => array(
-                'mfp_top_information_bar' => Configuration::get('mfp_top_information_bar'),
-                'mfp_bar_color' => Configuration::get('mfp_bar_color'),
-                'mfp_text_color' => Configuration::get('mfp_text_color'),
-                'mfp_text_size' => Configuration::get('mfp_text_size'),
-
-
+                'mfp_msc_clarity_text' => Configuration::get('mfp_msc_clarity_text'),
+                'mfp_msc_clarity_switch' => Configuration::get('mfp_msc_clarity_switch'),
             ),
             'languages' => $this->context->controller->getLanguages(),
         );
@@ -185,79 +156,74 @@ class mfp_msc_clarity extends Module
 
         if (Tools::isSubmit('submit' . $this->name)) {
 
-            $mfp_top_information_bar = Tools::getValue('mfp_top_information_bar');
-            $mfp_bar_color = Tools::getValue('mfp_bar_color');
-            $mfp_text_color = Tools::getValue('mfp_text_color');
-            $mfp_text_size = Tools::getValue('mfp_text_size');
+            $mfp_msc_clarity_text= Tools::getValue('mfp_msc_clarity_text');
+            $mfp_msc_clarity_switch = Tools::getValue('mfp_msc_clarity_switch');
 
-
-
-            if (!isset( $mfp_top_information_bar )) {
-                $output .= $this->displayError($this->l('You have empty fields.'));
+            if (!isset( $mfp_msc_clarity_text )) {
+                $output .= $this->displayError($this->l('Nie podano ID projektu Clarity'));
             } else {
 
-                Configuration::updateValue('mfp_top_information_bar', $mfp_top_information_bar);
-                Configuration::updateValue('mfp_text_color', $mfp_text_color);
-                Configuration::updateValue('mfp_text_size', $mfp_text_size);
-                Configuration::updateValue('mfp_bar_color', $mfp_bar_color);
+                Configuration::updateValue('mfp_msc_clarity_text', $mfp_msc_clarity_text);
+                Configuration::updateValue('mfp_msc_clarity_switch', $mfp_msc_clarity_switch);
 
-
-                $output .= $this->displayConfirmation($this->l('Successful save'));
+                $output .= $this->displayConfirmation($this->l('Poprawnie zapisano'));
             }
             Tools::redirectAdmin($this->context->link->getAdminLink('AdminModules') . '&configure=' . $this->name . '&conf=6');
 
         }
         $output .= $this->displayForm();
-//        $output .= (new ModulesForPrestaMarketing())->getRequaiermentsTemplate();
+
         return $output ;
     }
 
     public function hookDisplayHeader()
     {
+//        if(intval(Configuration::get('mfp_msc_clarity_switch')) == 1) {
+//            $this->context->smarty->assign('mfp_ms_clarity_code', Configuration::get('mfp_msc_clarity_text'));
+//            Media::addJsDef([
+//                'mfp_msc_clarity' => [
+//                    'mfp_ms_clarity_code' => Configuration::get('mfp_msc_clarity_text')
+//                ]
+//            ]);
+//            $this->context->controller->registerJavascript(
+//                'mfp_msc_clarity',
+//                $this->_path . 'views/js/main.js',
+//                [
+//                    'position' => 'head',
+//                    'priority' => 150,
+//                    'server' => 'remote',
+//                    'inline' => true,
+//                ]
+//            );
+//        }
 
-        $this->context->controller->addJS($this->_path . 'views/js/main.js');
-        $this->context->controller->addCSS($this->_path . 'views/css/main.css');
-
-
-        $this->context->smarty->assign(array(
-            'topbarinformation' => Configuration::get("mfp_top_information_bar"),
-            'mfp_text_size' => Configuration::get("mfp_text_size"),
-            'mfp_bar_color' => Configuration::get("mfp_bar_color"),
-            'mfp_text_color' => Configuration::get("mfp_text_color"),
-
-        ));
-        return $this->context->smarty->fetch(_PS_MODULE_DIR_ . 'mfp_topinfobar/views/templates/front/topbar.tpl');
     }
-    public $sqlQueries = [];
+    public function hookActionFrontControllerSetMedia() {
+        if(intval(Configuration::get('mfp_msc_clarity_switch')) == 1) {
+            $this->context->smarty->assign('mfp_ms_clarity_code', Configuration::get('mfp_msc_clarity_text'));
 
-    public array $DB_tables = ["mfp_topinfobar"];
+            $defJsVariables = [
+                'mfp_msc_clarity' => [
+                    'mfp_ms_clarity_code' => Configuration::get('mfp_msc_clarity_text')
+                ]
+            ];
+            Media::addJsDef($defJsVariables);
 
-    public function installQuaries()
-    {
-        $this->sqlQueries[] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.$this->DB_tables[0].'` (
-				  `id` int(11) NOT NULL AUTO_INCREMENT,
-				  `inforamation_conent` VARCHAR(255) NOT NULL,
-				  `status` int(1) NOT NULL,
-				  PRIMARY KEY (`id`)
-				) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;';
+            $this->context->controller->registerJavascript(
+                'mfp_msc_clarity',
+                $this->_path . 'views/js/main.js',
+//                [
+//                    'position' => 'head',
+//                    'priority' => 200,
+//                    'server' => 'remote',
+//                    'inline' => true,
+//
+//
+//                ],
 
-        foreach ($this->sqlQueries as $query) {
-            if (Db::getInstance()->execute($query) === false) {
-                return false;
-            }
+            );
         }
-        return true;
     }
 
-    public function uninstallQueries()
-    {
-
-
-        foreach ($this->DB_tables as $table) {
-            if (Db::getInstance()->execute("DROP TABLE IF EXISTS `".mfp_msc_clarity::getPrefixDb().$table."`;") === false) {
-                return false;
-            }
-        }
-        return true;
-    }
+    
 }
