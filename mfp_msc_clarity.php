@@ -28,8 +28,8 @@ class mfp_msc_clarity extends Module
     public function __construct()
     {
         $this->name = 'mfp_msc_clarity';
-        $this->tab = 'front_office_features';
-        $this->version = '1.0.0';
+        $this->tab = 'administration';
+        $this->version = '1.0.3';
         $this->author = 'Modules for Presta';
         $this->need_instance = 0;
         $this->_path = _PS_MODULE_DIR_.$this->name;
@@ -87,13 +87,6 @@ class mfp_msc_clarity extends Module
             ),
             'input' => array(
                 array(
-                    'type' => 'text',
-                    'label' => $this->l('Projekt ID z Clarity'),
-                    'name' => 'mfp_msc_clarity_text',
-                    'desc' => $this->l('ID projektu znajduje się ')
-
-                ),
-                array(
                     'type' => 'switch',
                     'label' => $this->l('Aktywacja modułu'),
                     'name' => 'mfp_msc_clarity_switch',
@@ -111,7 +104,15 @@ class mfp_msc_clarity extends Module
                             'label' => $this->l('Wyłącz')
                         )
                     ),
-                )
+                ),
+                array(
+                    'type' => 'text',
+                    'label' => $this->l('Projekt ID z Clarity'),
+                    'name' => 'mfp_msc_clarity_text',
+                    'desc' => $this->l('ID projektu znajduje się ')
+
+                ),
+
 
             ),
             'submit' => array(
@@ -178,24 +179,7 @@ class mfp_msc_clarity extends Module
 
     public function hookDisplayHeader()
     {
-//        if(intval(Configuration::get('mfp_msc_clarity_switch')) == 1) {
-//            $this->context->smarty->assign('mfp_ms_clarity_code', Configuration::get('mfp_msc_clarity_text'));
-//            Media::addJsDef([
-//                'mfp_msc_clarity' => [
-//                    'mfp_ms_clarity_code' => Configuration::get('mfp_msc_clarity_text')
-//                ]
-//            ]);
-//            $this->context->controller->registerJavascript(
-//                'mfp_msc_clarity',
-//                $this->_path . 'views/js/main.js',
-//                [
-//                    'position' => 'head',
-//                    'priority' => 150,
-//                    'server' => 'remote',
-//                    'inline' => true,
-//                ]
-//            );
-//        }
+
 
     }
     public function hookActionFrontControllerSetMedia() {
@@ -212,14 +196,7 @@ class mfp_msc_clarity extends Module
             $this->context->controller->registerJavascript(
                 'mfp_msc_clarity',
                 $this->_path . 'views/js/main.js',
-//                [
-//                    'position' => 'head',
-//                    'priority' => 200,
-//                    'server' => 'remote',
-//                    'inline' => true,
-//
-//
-//                ],
+
 
             );
         }
