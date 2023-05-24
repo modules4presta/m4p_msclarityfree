@@ -64,15 +64,6 @@ class mfp_msc_clarity extends Module
     {
         // Deletes module tables
 
-
-
-        $this->context->smarty->assign(array(
-            'module_name' => $this->name,
-            'module_display_name' => $this->displayName,
-        ));
-
-
-
         if (!parent::uninstall()) {
             return false;
         }
