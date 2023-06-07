@@ -61,7 +61,10 @@ class ManageSql {
         $this->sqlQueries[] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.$this->prefix_table.'_ads_modules` (
 				  `id` int(11) NOT NULL AUTO_INCREMENT,
 				  `module_id` VARCHAR(255) NOT NULL,
-				  `content` VARCHAR(1000) NOT NULL,
+				  `module_id_4` VARCHAR(10) NOT NULL,
+				  `module_id_3` VARCHAR(10) NOT NULL,
+				  `module_id_2` VARCHAR(10) NOT NULL,
+				  `module_id_1` VARCHAR(10) NOT NULL,
 				  
 				  PRIMARY KEY (`id`)
 				) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;';

@@ -11,7 +11,7 @@
  *  @copyright nice-code.pl
  *  @license   ALL RIGHTS RESERVED
  */
-require_once dirname(__FILE__) . '/../../classes/ChangeLogTab.php';
+require_once dirname(__FILE__) . '/../../classes/AdsForModules.php';
 class AdminAdsForModulesController extends ModuleAdminControllerCore
 {
 
@@ -23,8 +23,18 @@ class AdminAdsForModulesController extends ModuleAdminControllerCore
     /** @var int id module */
     public $module_id;
 
-    /** @var string content */
-    public $content;
+    /** @var string id module 4 */
+    public $module_id_4;
+
+    /** @var string id module 3 */
+    public $module_id_3;
+
+    /** @var string id module 2 */
+    public $module_id_2;
+
+    /** @var string id module 1 */
+    public $module_id_1;
+
 
 
     const TABLE_NAME = 'mfp_license_manager_ads_modules';
@@ -35,7 +45,7 @@ class AdminAdsForModulesController extends ModuleAdminControllerCore
         $this->context = Context::getContext();
         $this->table = 'mfp_license_manager_ads_modules';
         $this->identifier = 'id';
-        $this->className = 'ChangeLogTab';
+        $this->className = 'AdsForModules';
         $this->_defaultOrderBy = 'module_id';
         $this->lang = false;
         $this->bootstrap = true;
@@ -48,11 +58,10 @@ class AdminAdsForModulesController extends ModuleAdminControllerCore
             'confirm' => 'Delete selected items?'
         ),);
 
-        $this->_select = 'id';
+//        $this->_select = 'id';
         $this->fields_list = array(
             'id' => array('title' => 'ID', 'align' => 'center', 'width' => 25),
-            'module_id' => array('title' => 'id modułu', 'align' => 'center', 'width' => 25),
-             'content' => array('title' => 'Tekst', 'align' => 'center', 'width' => 60 ),
+            'module_id' => array('title' => 'Moduł z reklamami', 'align' => 'center', 'width' => 25,  'callback' => 'getModuleName'),
 
 
         );
@@ -69,7 +78,17 @@ class AdminAdsForModulesController extends ModuleAdminControllerCore
 
         parent::__construct();
     }
+    public function getModuleName($moduleId)
+    {
+        $module = new Product($moduleId);
+        if ($module) {
+            return $module->name[Context::getContext()->language->id];
+        }
+        else {
+            return $moduleId;
+        }
 
+    }
     public function renderForm()
     {
 //
@@ -79,23 +98,72 @@ class AdminAdsForModulesController extends ModuleAdminControllerCore
 
 
         $this->fields_form = array(
-            'legend' => array('title' => 'Nowa Wersja opis',),
+            'legend' => array('title' => 'Nowa reklama',),
             'input' => array(
 
                 array(
-                    'type' => 'text',
-                    'label' => $this->l('Opis zmian'),
-                    'name' => 'content',
+                    'type' => 'select',
+                    'label' => $this->l('Moduł polecany 1'),
+                    'name' => 'module_id_1',
                     'required' => true,
-                    'size' => 50
+                    'size' => 10,
+                    'setWidth'=> 450,
+                    'options' => array(
+                        'query' => $options = $this->getAllModules(),
+                        'id' => 'id_option',
+                        'name' => 'name',
+                    ),
+
                 ),
                 array(
                     'type' => 'select',
-                    'label' => $this->l('Moduł'),
+                    'label' => $this->l('Moduł polecany 2'),
+                    'name' => 'module_id_2',
+                    'required' => true,
+                    'size' => 10,
+                    'setWidth'=> 450,
+                    'options' => array(
+                        'query' => $options = $this->getAllModules(),
+                        'id' => 'id_option',
+                        'name' => 'name',
+                    ),
+
+                ),
+                array(
+                    'type' => 'select',
+                    'label' => $this->l('Moduł polecany 3'),
+                    'name' => 'module_id_3',
+                    'required' => true,
+                    'size' => 10,
+                    'setWidth'=> 450,
+                    'options' => array(
+                        'query' => $options = $this->getAllModules(),
+                        'id' => 'id_option',
+                        'name' => 'name',
+                    ),
+
+                ),
+                array(
+                    'type' => 'select',
+                    'label' => $this->l('Moduł polecany 4'),
+                    'name' => 'module_id_4',
+                    'required' => true,
+                    'size' => 10,
+                    'setWidth'=> 450,
+                    'options' => array(
+                        'query' => $options = $this->getAllModules(),
+                        'id' => 'id_option',
+                        'name' => 'name',
+                    ),
+
+                ),
+                array(
+                    'type' => 'select',
+                    'label' => $this->l('Moduł dla którego wyświetli się reklama'),
                     'name' => 'module_id',
                     'required' => true,
-                    'size' => 20,
-                    'setWidth'=> 250,
+                    'size' => 10,
+                    'setWidth'=> 450,
                     'options' => array(
                         'query' => $options = $this->getAllModules(),
                         'id' => 'id_option',
