@@ -58,7 +58,7 @@ class AdminAdsForModulesController extends ModuleAdminControllerCore
             'confirm' => 'Delete selected items?'
         ),);
 
-//        $this->_select = 'id';
+
         $this->fields_list = array(
             'id' => array('title' => 'ID', 'align' => 'center', 'width' => 25),
             'module_id' => array('title' => 'Moduł z reklamami', 'align' => 'center', 'width' => 25,  'callback' => 'getModuleName'),
@@ -165,7 +165,7 @@ class AdminAdsForModulesController extends ModuleAdminControllerCore
                     'size' => 10,
                     'setWidth'=> 450,
                     'options' => array(
-                        'query' => $options = $this->getAllModules(),
+                        'query' => $options = $this->getAllModules(1),
                         'id' => 'id_option',
                         'name' => 'name',
                     ),
@@ -180,9 +180,16 @@ class AdminAdsForModulesController extends ModuleAdminControllerCore
         return parent::renderForm();
     }
 
-    public function getAllModules() {
+    public function getAllModules($main = null) {
         $prods = Product::getProducts(Context::getContext()->language->id,0,NULL,'id_product','ASC');
         $result = [];
+        if($main){
+            $result[] = [
+                "id_option" => 0,
+                "name" => 'Wszystkie'
+            ];
+        }
+
         foreach($prods as $prod) {
             $result[] = [
                 "id_option" => $prod["id_product"],

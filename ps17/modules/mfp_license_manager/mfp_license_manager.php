@@ -115,7 +115,10 @@ class mfp_license_manager extends Module
 
     public function hookDisplayHeader()
     {
-
+        $link = new Link;
+        $parameters_ads_module = array("action" => "ajax");
+        $ajax_get_ads = $link->getModuleLink('mfp_license_manager', 'ajax', $parameters_ads_module);
+        var_dump($ajax_get_ads);
         $this->context->controller->addJS($this->_path . 'views/js/main.js');
         $this->context->controller->addCSS($this->_path . 'views/css/main.css');
         $this->registerHook("displayAdditionalCustomerAddressFields");
