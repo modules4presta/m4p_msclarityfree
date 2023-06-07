@@ -22,9 +22,20 @@ class mfp_license_managerAjaxModuleFrontController extends ModuleFrontController
                 if(empty($modules_id)){
                     $modules_id = Db::getInstance()->executeS('SELECT * FROM `'._DB_PREFIX_.$this->prefix_table.'_ads_modules` WHERE `module_id`=0 OR NULL');
                     echo $this->getProductDetails($modules_id[0]);
+                    die();
                 }
                 else
                 echo $this->getProductDetails($modules_id[0]);
+                die();
+            }
+            if($action == 'checkmodule') {
+                $module_name = Tools::getValue('modulename');
+                $module_id = $this->getProductByName($module_name);
+                $referer =parse_url($_SERVER['HTTP_REFERER']);
+                $existClient = Db::getInstance()->getValue("SELECT client_id FROM `"._DB_PREFIX_.$this->prefix_table."_clients_domains` WHERE `module_id`=".pSQL($module_id)." AND domain='".pSQL($referer)."';");
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_decode($existClient);
+                die();
             }
         }
     }
@@ -43,8 +54,11 @@ class mfp_license_managerAjaxModuleFrontController extends ModuleFrontController
             $productName = $product->name;
             $productPrice = $product->getPrice();
             $productLink = $product->getLink();
-            $productImageLink = $product->getCoverWs();
 
+            $image = Image::getCover($productId);
+            $product = new Product($productId, false, Context::getContext()->language->id);
+            $link = new Link; // because getImageLink is not static function
+            $productImageLink = $link->getImageLink($product->link_rewrite, $image['id_image'], 'home_default');
             $productDetails = array(
                 'name' => $productName,
                 'price' => $productPrice,
