@@ -128,6 +128,7 @@ class mfp_license_manager extends Module
     public function hookActionOrderStatusUpdate($params)
 
     {
+        return;
         $orderId = $params['id_order'];
         $order = new Order($orderId);
 
