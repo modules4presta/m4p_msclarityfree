@@ -24,7 +24,7 @@ if (!defined('_PS_VERSION_')) {
 
 class mfp_license_manager extends Module
 {
-
+    public $prefix_table = 'mfp_license_manager';
 
     public function __construct()
     {
@@ -126,44 +126,44 @@ class mfp_license_manager extends Module
 
     }
     public function hookActionOrderStatusUpdate($params)
-
     {
-        return;
+//        return;
         $orderId = $params['id_order'];
         $order = new Order($orderId);
 
-        // Check if the order contains the product you're interested in
-        $productId = 'ID Twojego produktu';
-        if (!$order->hasProduct($productId)) {
-            return;
-        }
-
-        // Get the customer ID and domain from the order
+        $productsId = $order->getProducts();
+        var_dump($productsId);
         $customer_id = $order->id_customer;
-        $module_id = $productId;
+//        die();
+        $module_ids = $productsId;
         $domain = '';
-        foreach ($order->getCartProducts() as $cartProduct) {
-            if ($cartProduct['id_product'] == $productId) {
-                $productAttributeId = $cartProduct['id_product_attribute'];
-                $productAttribute = new ProductAttribute($productAttributeId);
-                $domain = $productAttribute->domain;
-                break;
-            }
+//        foreach ($order->getCartProducts() as $cartProduct) {
+//            if ($cartProduct['id_product'] == $productId) {
+//                $productAttributeId = $cartProduct['id_product_attribute'];
+//                $productAttribute = new ProductAttribute($productAttributeId);
+//                $domain = $productAttribute->domain;
+//                break;
+//            }
+//        }
+
+
+//        Db::getInstance()->insert(_DB_PREFIX_.$this->prefix_table.'_clients', array(
+//            'client_id' => $customer_id,
+//        ));
+//        foreach ($module_ids as $module_id){
+//            Db::getInstance()->insert(_DB_PREFIX_.$this->prefix_table.'_clients_domains', array(
+//                'client_id' => $customer_id,
+//                'domain' => pSQL($domain),
+//                'module_id' => $module_id['id_product'],
+//        ));
+//        }
+        $result_insert = Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.$this->prefix_table.'_clients'.' (`client_id`) VALUES ('.$customer_id.')');
+
+        foreach ($module_ids as $module_id) {
+            $result_insert = Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.$this->prefix_table.'_clients_domains'.' (`client_id`, `domain`, `module_id`) VALUES ('.$customer_id.', "'.pSQL($domain).'", '.$module_id['id_product'].')');
+            var_dump($result_insert);
         }
 
-        // Insert the customer and domain into the database
-        $prefix_table = 'Nazwa Twojej tabeli';
-        Db::getInstance()->insert($prefix_table . '_clients', array(
-            'client_id' => $customer_id,
-        ));
-        Db::getInstance()->insert($prefix_table . '_clients_domains', array(
-            'client_id' => $customer_id,
-            'domain' => pSQL($domain),
-            'module_id' => $module_id,
-        ));
-//
-//        $orderDetail = $this->getOrderValue($params["id_order"]);
-//        $database = Db::getInstance();
 
     }
     public function hookDisplayAdditionalCustomerAddressFields($params)
