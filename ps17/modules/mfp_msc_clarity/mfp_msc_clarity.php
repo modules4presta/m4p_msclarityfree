@@ -164,7 +164,17 @@ class mfp_msc_clarity extends Module
             Tools::redirectAdmin($this->context->link->getAdminLink('AdminModules') . '&configure=' . $this->name . '&conf=6');
 
         }
-        $output .= $this->displayForm();
+        require_once dirname(__FILE__) . '/classes/ModulesForPrestaMarketingMSCclarity.php';
+        $this->context->smarty->assign(array(
+            'modules_ads' => ModulesForPrestaMarketingMSCclarity::getAdsFromModules4Presta()
+        ));
+        $this->content .= $this->context->smarty->fetch(_PS_MODULE_DIR_.$this->name.'/views/templates/admin/m4p_ads.tpl');
+
+        $this->context->smarty->assign(array(
+            'content' => $this->content,
+            'modules_ads' => ModulesForPrestaMarketingMSCclarity::getAdsFromModules4Presta()
+        ));
+        $output .= $this->displayForm().$this->content;
 
         return $output ;
     }
