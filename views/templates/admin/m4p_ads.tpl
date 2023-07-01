@@ -1,5 +1,15 @@
 <div class="panel">
-    Ten moduł zbiera dane do analizy. Rozważ dopisanie go do analitycznych plików cookie.
+   <b>
+    Sprawdź wersje PRO modułu MS Clarity
+    <a href="https://modules4presta.io/index.php?action=redirectToModule&fc=module&module=mfp_license_manager&controller=ajax&modulename=m4p_msclaritypro">Sprawdź</a>
+   </b>
+</div>
+<div class="alert alert-warning d-print-none" role="alert">
+    <div class="alert-text">
+        <p>
+            Ten moduł zbiera dane do analizy. Rozważ dopisanie go do analitycznych plików cookie.
+        </p>
+    </div>
 </div>
 
 <div class="panel">

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
-    <name>mfp_topinfobar</name>
-    <displayName><![CDATA[Top information bar]]></displayName>
-    <version><![CDATA[1.0.0]]></version>
-    <description><![CDATA[Top information bar]]></description>
-    <author><![CDATA[Modules for Presta]]></author>
+    <name>m4p_ms_clarity</name>
+    <displayName><![CDATA[Microsoft Clarity]]></displayName>
+    <version><![CDATA[1.0.6]]></version>
+    <description><![CDATA[Microsoft Clarity]]></description>
+    <author><![CDATA[Modules4Presta.io]]></author>
     <tab><![CDATA[front_office_features]]></tab>
 	<confirmUninstall><![CDATA[Are you sure you want to uninstall?]]></confirmUninstall>
     <is_configurable>0</is_configurable>
