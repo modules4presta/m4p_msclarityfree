@@ -29,7 +29,7 @@ class m4p_msc_clarity extends Module
     {
         $this->name = 'm4p_msc_clarity';
         $this->tab = 'administration';
-        $this->version = '1.0.4';
+        $this->version = '1.0.5';
         $this->author = 'Modules4Presta.io';
         $this->need_instance = 0;
         $this->_path = _PS_MODULE_DIR_.$this->name;
@@ -75,7 +75,7 @@ class m4p_msc_clarity extends Module
     public function displayForm(){
         $fields_form[0]['form'] = array(
             'legend' => array(
-                'title' => $this->l('Ustawienia Integration Microsoft Clarity'),
+                'title' => $this->l('Ustawienia'),
             ),
             'input' => array(
                 array(
@@ -83,7 +83,7 @@ class m4p_msc_clarity extends Module
                     'label' => $this->l('Aktywacja modułu'),
                     'name' => 'mfp_msc_clarity_switch',
                     'is_bool' => true,
-                    'desc' => $this->l('Włącz/wyłącz połaczneie z Clarity'),
+                    'desc' => $this->l('Włącz/wyłącz połączenie z Clarity'),
                     'values' => array(
                         array(
                             'id' => 'active_on',
@@ -101,7 +101,7 @@ class m4p_msc_clarity extends Module
                     'type' => 'text',
                     'label' => $this->l('Projekt ID z Clarity'),
                     'name' => 'mfp_msc_clarity_text',
-                    'desc' => $this->l('ID projektu znajduje się ')
+                    'desc' => $this->l('ID projektu znajduje się w panelu Clarity zakładce "My Projects" klikamy w koło zębate i kopiujemy "Project ID"')
 
                 ),
 
@@ -140,6 +140,8 @@ class m4p_msc_clarity extends Module
             ),
             'languages' => $this->context->controller->getLanguages(),
         );
+
+
         return $helper->generateForm($fields_form);
     }
 

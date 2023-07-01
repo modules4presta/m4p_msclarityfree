@@ -73,7 +73,7 @@ class Modules4PrestaMarketingMSCclarity
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://modules4presta.io/index.php?action=getAdsForModul&fc=module&module=mfp_license_manager&controller=ajax&modulename='.urlencode('mfp_topinfobar'),
+            CURLOPT_URL => 'https://modules4presta.io/index.php?action=getAdsForModul&fc=module&module=mfp_license_manager&controller=ajax&modulename='.urlencode('m4P_barinfofree'),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
