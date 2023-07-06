@@ -29,7 +29,7 @@ class m4P_msclarityfree extends Module
     {
         $this->name = 'm4p_msclarityfree';
         $this->tab = 'administration';
-        $this->version = '1.0.6';
+        $this->version = '1.0.9';
         $this->author = 'Modules4Presta.io';
         $this->need_instance = 0;
         $this->_path = _PS_MODULE_DIR_.$this->name;
@@ -42,7 +42,7 @@ class m4P_msclarityfree extends Module
         parent::__construct();
 
         $this->displayName = $this->l('Integration Microsoft Clarity FREE');
-        $this->description = $this->l('Module to connect with Microsoft Clarity ').'<a href="https://modules4presta.io/index.php?action=redirectToModule&fc=module&module=mfp_license_manager&controller=ajax&modulename=m4p_msclaritypro">Get PRO</a>';
+        $this->description = $this->l('Module to connect with Microsoft Clarity ').' &nbsp;<a href="https://modules4presta.io/index.php?action=redirectToModule&fc=module&module=mfp_license_manager&controller=ajax&modulename=m4p_msclaritypro" target="_blank">'.$this->l('Get PRO').'</a>';
 
 
 
@@ -75,35 +75,33 @@ class m4P_msclarityfree extends Module
     public function displayForm(){
         $fields_form[0]['form'] = array(
             'legend' => array(
-                'title' => $this->l('Ustawienia'),
+                'title' => $this->l('Settings'),
             ),
             'input' => array(
                 array(
                     'type' => 'switch',
-                    'label' => $this->l('Aktywacja modułu'),
+                    'label' => $this->l('Active module'),
                     'name' => 'm4p_msclarityfree_switch',
                     'is_bool' => true,
-                    'desc' => $this->l('Włącz/wyłącz połączenie z Clarity'),
+                    'desc' => $this->l('On/Off connect with Clarity'),
                     'values' => array(
                         array(
                             'id' => 'active_on',
                             'value' => 1,
-                            'label' => $this->l('Włącz')
+                            'label' => $this->l('On')
                         ),
                         array(
                             'id' => 'active_off',
                             'value' => 0,
-                            'label' => $this->l('Wyłącz')
+                            'label' => $this->l('Off')
                         )
                     ),
                 ),
                 array(
                     'type' => 'text',
-                    'label' => $this->l('Projekt ID z Clarity'),
+                    'label' => $this->l('Project ID Clarity'),
                     'name' => 'm4p_msclarityfree_text',
-                    'desc' => $this->l('ID projektu znajduje się w panelu Clarity, w zakładce "My Projects". Klikamy w koło zębate i kopiujemy "Project ID".
-
-')
+                    'desc' => $this->l('The project ID is located in the Clarity panel, under the "My Projects" tab. Click on the gear icon and copy the "Project ID."')
 
                 ),
 

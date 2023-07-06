@@ -1,6 +1,6 @@
 <div class="panel">
     <div class="panel-heading">
-        <h2>{l s='Requaierments' mod='m4p_barinfofree'}</h2>
+        <h2>{l s='Requaierments' mod='m4p_msclarityfree'}</h2>
     </div>
 
     {foreach $requaierments as $requaierment}
