@@ -1,10 +1,3 @@
-<div class="panel">
-   <b>
-       {l s='Please check the PRO version of the MS Clarity module.' mod='m4p_msclarityfree'}
-
-    <a href="https://modules4presta.io/index.php?action=redirectToModule&fc=module&module=mfp_license_manager&controller=ajax&modulename=m4p_msclaritypro" target="_blank">{l s='Show more' mod='m4p_msclarityfree'}</a>
-   </b>
-</div>
 <div class="alert alert-warning d-print-none" role="alert">
     <div class="alert-text">
         <p>

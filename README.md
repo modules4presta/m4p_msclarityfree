@@ -31,10 +31,6 @@ That's it — data will start appearing in your Clarity dashboard within minutes
 
 Microsoft Clarity collects behavioral data for analytics purposes. Remember to list it among **analytical cookies** in your store's cookie/GDPR consent policy.
 
-## PRO version
-
-Need more? Check the [PRO version of the MS Clarity module](https://modules4presta.io) with extended features, and other PrestaShop modules at **[Modules4Presta.io](https://modules4presta.io)**.
-
 ---
 
 ## PL — Integracja Microsoft Clarity z PrestaShop (darmowy moduł)

@@ -37,7 +37,7 @@ class m4P_msclarityfree extends Module
         parent::__construct();
 
         $this->displayName = $this->l('Integration Microsoft Clarity FREE');
-        $this->description = $this->l('Module to connect with Microsoft Clarity ') . ' &nbsp;<a href="https://modules4presta.io/index.php?action=redirectToModule&fc=module&module=mfp_license_manager&controller=ajax&modulename=m4p_msclaritypro" target="_blank">' . $this->l('Get PRO') . '</a>';
+        $this->description = $this->l('Module to connect with Microsoft Clarity');
     }
 
     public function install()
